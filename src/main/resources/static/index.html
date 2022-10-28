@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>商品信息</title>
+    <title>任务-后台</title>
     <!--根据自己的项目目录修改-->
     <link rel="stylesheet" href="layui/css/layui.css" media="all"/>
+
 </head>
 <body>
 <!--头部-->
@@ -13,8 +14,8 @@
         <form class="layui-form" id="search_form">
             <div class="layui-input-block" style="display: table-cell">
                 <!--            <label>&emsp;接&emsp;口&emsp;</label>-->
-                <div class="layui-input-inline" style="width: 260px">
-                    <input type="text" name="name" placeholder="请输入商品名称 支持模糊查询"
+                <div class="layui-input-inline" style="width: 300px">
+                    <input type="text" name="name" placeholder="请输入任务名称或责任人 支持模糊查询"
                            autocomplete="off" class="layui-input">
                 </div>
             </div>
@@ -23,7 +24,7 @@
                 <button class="layui-btn layui-btn-sm layui-btn-danger" lay-submit lay-filter="search"
                         style="margin-left: 15px"><i class="layui-icon">&#xe615;</i>搜&emsp;索
                 </button>
-                <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">
+                <button type="reset" class="layui-btn layui-btn-warm layui-btn-sm">
                     <i class="layui-icon">&#xe631;</i>重&emsp;置
                 </button>
             </div>
@@ -39,14 +40,33 @@
             </div>
             <!--刷新-->
             <div style="display: table-cell;">
-                <button id="refresh" class="layui-btn layui-btn-normal layui-btn-sm" style="margin-left: 15px">
+                <button id="refresh" class="layui-btn layui-btn-sm" style="margin-left: 15px">
                     <i class="layui-icon">&#xe669;</i> 刷&emsp;新
+                </button>
+            </div>
+
+            <div style="display: table-cell;">
+                <button id="manage01" class="layui-btn layui-btn-sm" style="margin-left: 15px">
+                    <i class="layui-icon">&#xe669;</i> SE名单管理
+                </button>
+            </div>
+			
+			<div style="display: table-cell;">
+                <button id="test01" class="layui-btn layui-btn-primary layui-btn-sm" style="margin-left: 15px">
+                    <i class="layui-icon">&#xe669;</i> 临时上传
+                </button>
+            </div>
+			<div style="display: table-cell;">
+                <button id="test02" class="layui-btn layui-btn-primary layui-btn-sm" style="margin-left: 15px">
+                    <i class="layui-icon">&#xe669;</i> 临时报表
                 </button>
             </div>
         </div>
     </div>
 </div>
 <table id="goods_table" lay-filter="goods_bar"></table>
+
+
 <div class="layui-row" id="open_div" style="display:none;">
     <form id="add_form" class="layui-form" action="" style="margin-top: 20px;align:center;">
         <!--隐藏字段action，用来区分增加和编辑行为-->
@@ -56,61 +76,68 @@
         <!--隐藏字段request_type，用于提供请求方式:get,post,put-->
         <input type="hidden" name="request_type" id="request_type">
 
+        <!--第一行-->
         <div class="layui-form-item" style="display: table;width: 96%">
-            <div class="layui-form-item" style="display: table-cell;width: 50%">
-                <label class="layui-form-label">类&emsp;&emsp;型</label>
+            <div class="layui-form-item" style="display: table-cell;width: 96%">
+
+                <label class="layui-form-label">任务名称</label>
                 <div class="layui-input-block">
-                    <select name="type" lay-filter="type" lay-verify="required">
-                        <option value="">请选择</option>
-                        <option value="1">国产</option>
-                        <option value="2">进口</option>
-                    </select>
-                </div>
-            </div>
-            <div class="layui-form-item" style="display: table-cell;width: 50%">
-                <label class="layui-form-label">状&emsp;&emsp;态</label>
-                <div class="layui-input-block">
-                    <select name="status" lay-filter="type" lay-verify="required">
-                        <option value="">请选择</option>
-                        <option value="0">缺货</option>
-                        <option value="1">有货</option>
-                    </select>
+                    <input type="text" name="name" placeholder="请输入任务名称"
+                           autocomplete="off" class="layui-input" lay-verify="required">
                 </div>
             </div>
         </div>
 
+        <!--第二行-->
         <div class="layui-form-item" style="display: table;width: 96%">
-            <div class="layui-form-item" style="display: table-cell;width: 50%">
-                <label class="layui-form-label">价&emsp;&emsp;格</label>
+            <div class="layui-form-item" style="display: table-cell;width: 33%">
+                <label class="layui-form-label">责任人</label>
                 <div class="layui-input-block">
-                    <input type="text" name="price" placeholder="请输入价格"
+                    <input type="text" name="owner" placeholder="请任务的第一责任人"
                            autocomplete="off" class="layui-input" lay-verify="required">
                 </div>
             </div>
-            <div class="layui-form-item" style="display: table-cell;width: 50%">
-                <label class="layui-form-label">数&emsp;&emsp;量</label>
+            <div class="layui-form-item" style="display: table-cell;width: 33%">
+                <label class="layui-form-label">开始时间</label>
                 <div class="layui-input-block">
-                    <input type="text" name="size" placeholder="请输入数量"
+                    <input type="text" name="start_time" placeholder=""
+                           autocomplete="off" class="layui-input" lay-verify="required">
+                </div>
+            </div>
+
+            <div class="layui-form-item" style="display: table-cell;width: 33%">
+                <label class="layui-form-label">结束时间</label>
+                <div class="layui-input-block">
+                    <input type="text" name="end_time" placeholder="请任务完成日期"
                            autocomplete="off" class="layui-input" lay-verify="required">
                 </div>
             </div>
         </div>
+
+
+        <!--第三行-->
         <div class="layui-form-item" style="display: table;width: 96%">
-            <div class="layui-form-item" style="display: table-cell;width: 50%">
-                <label class="layui-form-label">产品名称</label>
+            <div class="layui-form-item" style="display: table-cell;width: 96%">
+                <label class="layui-form-label">文档链接</label>
                 <div class="layui-input-block">
-                    <input type="text" name="name" placeholder="请输入产品名称"
-                           autocomplete="off" class="layui-input" lay-verify="required">
-                </div>
-            </div>
-            <div class="layui-form-item" style="display: table-cell;width: 50%">
-                <label class="layui-form-label">说&emsp;&emsp;明</label>
-                <div class="layui-input-block">
-                    <input type="text" name="description" placeholder="请输入产品说明"
+                    <input type="text" name="url" placeholder="请输入待反馈文档的共享链接"
                            autocomplete="off" class="layui-input" lay-verify="required">
                 </div>
             </div>
         </div>
+
+        <!--第四行-->
+        <div class="layui-form-item" style="display: table;width: 96%">
+            <div class="layui-form-item" style="display: table-cell;width: 96%">
+                <label class="layui-form-label">任务备注</label>
+                <div class="layui-input-block">
+                    <input type="text" name="description" placeholder="备注信息"
+                           autocomplete="off" class="layui-input" lay-verify="required">
+                </div>
+            </div>
+        </div>
+
+
         <div class="layui-form-item" style="margin-left: 40%">
             <div class="layui-btn-group">
                 <button class="layui-btn" lay-submit="" lay-filter="update_submit">提&ensp;交</button>
@@ -120,94 +147,266 @@
     </form>
 </div>
 
+<!--管理SE的div-->
+<div class="layui-row" id="open_se_div" style="display:none;">
+    <div style="margin: 10px 0 10px 1%;width: 99%">
+        <div style="display: table-cell">
+            <form class="layui-form" id="add_se">
+                <button class="layui-btn layui-btn-sm layui-btn-danger"
+                        style="margin-left: 15px"><i class="layui-icon">&#xe615;</i>增加SE
+                </button>
+
+            </form>
+        </div>
+    </div>
+
+    <table id="se_table"></table>
+</div>
+
+<!--选择excel文件的div-->
+<div class="layui-row" id="upload_excel_div" style="display:none;">
+
+    <!--第一行-->
+    <div class="UpFileDivd" align="center">
+        <div class="layui-upload-drag" id="test10">
+            <i class="layui-icon"></i>
+            <p>点击上传，或将文件拖拽到此处</p>
+            <div class="layui-hide" id="uploadDemoView">
+                <hr>
+                <img src="" alt="上传成功后渲染" style="max-width: 196px">
+            </div>
+        </div>
+
+        <button id="UpBtn" class="layui-btn" >上传</button>
+    </div>
+    <div class="UpTable">
+        <div class="layui-upload-list" style="max-width: 1000px;">
+            <table class="layui-table">
+                <colgroup>
+                    <col ><col width="100"><col width="100"><col width="100"><col width="70">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>文件名</th><th>大小</th><th>状态</th><th>上传进度</th><th>操作</th>
+                </tr></thead>
+                <tbody id="demoList"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <form class="layui-form" action="" style="margin-top: 20px;align:center;">
+        <!--第二行-->
+		
+		<!--隐藏字段id，用于提供编辑需要的主键，id是从上级页面传过来的-->
+        <input type="hidden" name="id" id="id">
+		<input type="hidden" name="name" id="taskName">
+		<input type="hidden" name="seList" id="dom_seList">
+		
+		
+        <div class="layui-form-item" style="display: table;width: 96%">
+            <div class="layui-form-item" style="display: table-cell;width: 100%">
+                <label class="layui-form-label">sheet页</label>
+                <div class="layui-input-block">
+                    <input type="text" name="sheetName" placeholder="请输入待统计的sheet页名称"
+                           autocomplete="off" class="layui-input" lay-verify="required">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item" style="display: table;width: 96%">
+            <div class="layui-form-item" style="display: table-cell;width: 50%">
+                <label class="layui-form-label">SE列号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="nameCol" placeholder="请输入包含SE的列号"
+                           autocomplete="off" class="layui-input" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item" style="display: table-cell;width: 50%">
+                <label class="layui-form-label">统计列号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="valueCol" placeholder="请输入待统计的列号"
+                           autocomplete="off" class="layui-input" lay-verify="required">
+                </div>
+            </div>
+        </div>
+
+
+       <div class="layui-form-item" style="display: table;width: 96%">
+            <div class="layui-form-item" style="display: table-cell;width: 10%">
+				<label class="layui-form-label">名 单：</label>
+			</div>
+			<div class="layui-form-item" style="display: table-cell;width: 65%">
+				<select id="dom_se_name_select" lay-filter="brick">
+					<option value="1">使用系统SE名单</option>
+					<option value="2">使用上传表格中的名单</option>
+					<option value="3">自定义名单</option>
+				</select>
+            </div>
+        </div>
+		
+       <div class="layui-form-item" style="display: table;width: 96%">
+	        <div class="layui-form-item" style="display: table-cell;width: 10%">
+				<label class="layui-form-label">正 则：</label>
+			</div>
+            <div class="layui-form-item" style="display: table-cell;width: 10%">
+				<input type="checkbox" id="dom_checkbox_use_rules" title="开启" lay-filter="useRules">
+			</div>
+			<div class="layui-form-item" style="display: table-cell;width: 50%">
+				<div class="layui-input-block">
+					<input type="text" id="dom_input_rules" name="rulesValue" placeholder="请输入正则表达式" disabled="disabled"
+						   autocomplete="off" class="layui-input" >
+				</div>
+            </div>
+        </div>
+
+		
+		<div class="layui-form-item" style="margin-top: 20px;margin-left: 15px">
+            <div class="layui-btn-group">
+                <button class="layui-btn" lay-submit="" lay-filter="file_submit">提&ensp;交</button>
+            </div>
+        </div>
+    </form>
+
+
+
+</div>
+
+<!--报表显示的div-->
+<div id="echart_report" style="display: table;margin: 10px 0 10px 1%;display:none;">
+
+	<div class="layui-container">
+	<!-- 定义行 -->
+		<div class="layui-row">
+         <!-- 定义列 -->
+			<div class="layui-col-md3" style="margin:30px 0px 0px 0px;">
+				<table id="rept_table" style="width:280px;border="1" cellspacing="0" cellpadding="0" >
+                    <tr>
+                        <th>姓名</th>
+						<th>welink</th>
+                        <th>完成数</th>
+                        <th>任务总数</th>
+                        <th>业务PL</th>
+                    </tr>
+                </table>
+		  </div>
+          <div class="layui-col-md4" style="">
+			<div id="echart_report_frame" style="">
+		  </div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
 <script src="layui/layui.js"></script>
 <script src="js/libs/jquery-2.1.1.min.js"></script>
 <script src="utils/common.js"></script>
+<script src="js/echarts.min.js"></script>
+<script src="js/hwh5-cloudonline.js"></script>
 
 <!--行工具按钮-->
 <script type="text/html" id="goods_lineBar">
-    <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="del">删除</a>
+    <a class="layui-btn layui-btn-xs" lay-event="upload_excel">上传</a>
+	<a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="show_report_btn">报表</a>
 </script>
 
+
 <script>
+    /******************************************************************************/
+    /****************************1.刷新task list************************************/
+    /****************************2.增加task   二级页面*******************************/
+    /****************************3.管理SE名单  二级页面*******************************/
+    /****************************4.任务行尾的操作执行*********************************/
+    /****************************5.新增task或者修改task******************************/
+    /****************************6.监听搜索按钮提交事件********************************/
+    /****************************7.SE表格刷新***************************************/
+    /****************************8.后台分析计算表格***********************************/
+    /****************************9.显示报表/****************************************/
+    /*****************************************************************************/
+    /*****************************************************************************/
+
+
+    //任务表格刷新
     layui.use(['table', 'layer', 'form', 'laypage'], function () {
         var table = layui.table;
         var form = layui.form;
+        var layer = layui.layer;
 
         table.render({
             elem: '#goods_table'
-            , id: 'goodsReload'
+            , id: 'tasksReload'
             , even: true //开启隔行背景
-            , url: '/goods/goodsList'
+            , url: '/tasks/tasksList'
             , request: {
                 pageName: 'pageNum',
                 limitName: 'pageSize'
             }
             // , toolbar: '#goods_headerBar'
             , title:
-                '商品详情表'
+                '任务详情表'
             , page:
                 true //开启分页
             , limit: 10
             , limits: [1, 5, 10, 20, 50, 100]
             , cols:
-                [[{field: 'id', title: '编号', width: 60, align: 'center'}
+                [[{field: 'id', title: '编号', width: 30, align: 'center'}
 
-                    , {field: 'name', title: '商品名称', width: '10%', align: 'center'}
-                    , {
-                        field: 'type', title: '类&emsp;型', width: '10%', align: 'center', templet: function (d) {
-                            if (d.type == 1) {
-                                return '<span style="color: #1E9FFF;">国产</span>'
-                            } else {
-                                return '<span style="color: #FF5722;">进口</span>'
-                            }
-                        }
-                    }
-                    , {field: 'price', title: '价&emsp;格', width: '9.1%', align: 'center'}
-                    , {field: 'size', title: '数&emsp;量', width: '9.5%', align: 'center'}
-                    , {
-                        field: 'status', title: '状&emsp;态', width: '7.5%', align: 'center', templet: function (d) {
-                            if (d.status == 0) {
-                                return '<span style="color: #FF5722;">缺货</span>'
-                            } else {
-                                return '<span style="color: #00FF00;">有货</span>'
-                            }
-                        }
-                    }
-                    , {field: 'description', title: '说&emsp;明', align: 'center'}
+                    , {field: 'name', title: '任务名称', width: '20%', align: 'center'}
+                    , {field: 'start_time', title: '开始时间', width: '8%', align: 'center'}
+                    , {field: 'end_time', title: '结束时间', width: '8%', align: 'center'}
+                    , {field: 'owner', title: '责任人', width: '8%', align: 'center'}
+                    , {field: 'url', title: '文档链接', width: '10%', align: 'center'}
+                    , {field: 'description', title: '备&emsp;注', align: 'center'}
                     , {
                         fixed: 'right',
                         title: '操作',
                         toolbar: '#goods_lineBar',
-                        width: 160,
-                        align: 'center'
-                    }
+                        width: 240,
+                        align: 'center'}
+					, {field: 'sheetName', hide:true}
+					, {field: 'nameCol', hide:true}
+					, {field: 'valueCol', hide:true}
                 ]]
         });
 
+        //同上
         $("#refresh").click(function () {
             // 执行一个表格重载即实现刷新功能
-            table.reload('goodsReload', {
+            table.reload('tasksReload', {
                 where: '',
                 contentType: 'application/x-www-form-urlencoded',
                 page: {
                     curr: 1 //重新从第 1 页开始
                 },
-                url: '/goods/goodsList',
+                url: '/tasks/tasksList',
                 method: 'get'
             });
         });
 
+        ////////////////////////////增加task  二级页面//////////////////////////////////
         $("#add").click(function () {
             var data = {};
-            data.action = 'addGood';
+            data.action = 'addTask';
             data.request_type = 'post';
 
             // 调用打开弹层的工具方法
-            open_form("#open_div", data, '添加商品', '680px', '282px');
+            open_form("#open_div", data, '添加任务', '880px', '360px');
         });
 
+        ////////////////////////////////管理SE名单,二级页面//////////////////////////////
+        $("#manage01").click(function (obj) {
+            // 调用打开弹层的工具方法
+            var data = {};
+            //open_form("#upload_excel_div", data, 'SE名单管理', '680px', '600px');//for test
+            //layer.open({type: 1,area: ['680px', '600px'],content: $("#upload_excel_div")});
+            //layer.open({type: 1,area: ['680px', '600px'],content: $("#echart_report")});
+            open_form("#open_se_div", data, 'SE名单管理', '480px', '860px');
+        });
+
+        ////////////////////////////////4. 任务行尾的操作执行//////////////////////////////
         table.on('tool(goods_bar)', function (obj) {
             var data = obj.data;
             var layEvent = obj.event;
@@ -216,50 +415,85 @@
             switch (layEvent) {
                 case 'edit':
                     // 根据编辑行为为form隐藏项赋值
-                    data.action = 'updateGood';
+                    data.action = 'updateTask';
                     data.request_type = 'post';
-                    open_form("#open_div", data, '编辑用例', '680px', '282px');
+                    open_form("#open_div", data, '编辑任务', '880px', '360px');
                     break;
                 case 'del':
-                    layer.confirm('真的删除该行么', function (index) {
+                    layer.confirm('真的删除该任务么', function (index) {
                         obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
                         //向服务端发送删除指令
                         $.ajax({
                             type: "get",  //数据提交方式(post/get)
-                            url: "/goods/deleteGood?id=" + id,  //提交到的url
+                            url: "/tasks/deleteTask?id=" + id,  //提交到的url
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",//返回的数据类型格式
                             success: function (result) {
                                 layer.msg(result.msg, {icon: 1, time: 1000});
                             }, error: function (e) {
                                 console.log(e, 'error');
-                                layer.msg("查询商品异常，请联系管理员！", {icon: 1, time: 1000});
+                                layer.msg("查询任务异常，请联系开发者！", {icon: 1, time: 1000});
                             }
                         });
                         layer.close(index);
                     });
                     break;
+                case 'upload_excel':
+                    // 分析-计算报表
+                    //layer.open({type: 1,area: ['680px', '600px'],content: $("#reporter_div")});
+                    open_form("#upload_excel_div", data, '上传excel文件', '680px', '600px');
+                    break;
+				case 'show_report_btn':
+					console.log('show_report_btn1');
+					// 显示报表
+					$.ajax({
+						type: "get",  //数据提交方式(post/get)
+						url: "/tasks/taskReportInfo?taskId=" + id,  //提交到的url
+						contentType: "application/json; charset=utf-8",
+						dataType: "json",//返回的数据类型格式
+						success: function (result) {
+							var rptData = {};
+							rptData.title = data.name;//任务标题
+							rptData.json = result.reportStr;//保存全局变量
+							//test_jsonStr = result.reportStr;//for test use
+							fullReportTable(rptData);//刷新文字报表
+							
+							//welink跳转用的一些参数
+							task_title = data.name;
+							task_url = data.url;
+							task_owner = data.owner;
+							task_start = data.start_time;
+							task_end = data.end_time;
+							
+							layer.open({type: 1,area: ['680px', '860px'],content: $("#echart_report")});
+						}, error: function (e) {
+							console.log(e, 'error');
+							layer.msg("查询任务异常，请联系开发者！", {icon: 1, time: 1000});
+						}
+					});
+					break;
             }
         });
 
+        ///////////////////////////////////5.新增task或者修改task//////////////////////////////
         form.on('submit(update_submit)', function (data) {
             var uri = data.field.action;
             var type = data.field.request_type;
             console.log(data);
             $.ajax({
                 type: type,
-                url: '/goods/' + uri,
+                url: '/tasks/' + uri,
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(data.field),
                 dataType: "json",
                 success: function (result) {
                     if (result.code == "0") {
-                        table.reload('goodsReload', {
+                        table.reload('tasksReload', {
                             contentType: 'application/x-www-form-urlencoded',
                             page: {
                                 curr: 1 //重新从第 1 页开始
                             },
-                            url: '/goods/goodsList',
+                            url: '/tasks/tasksList',
                             method: 'get'
                         });
                         layer.msg('修改成功', {icon: 1, time: 1000});
@@ -274,19 +508,415 @@
             return false;
         });
 
-        // 监听搜索按钮提交事件
+        ///////////////////////////////// 6.监听搜索按钮提交事件///////////////////////////
         form.on('submit(search)', function (data) {
             var formData = data.field;
             var count = checkForm("search_form");
             if (count !== 0) {
                 //数据表格重载
-                tableReload('goodsReload', formData, "application/json; charset=utf-8", '/goods/searchGoods', 'post');
+                tableReload('tasksReload', formData, "application/json; charset=utf-8", '/tasks/searchTasks', 'post');
             } else {
                 parent.layer.msg('请先选择查询条件！', {icon: 2, time: 1500});
             }
             return false;
         });
+
+        ///////////////////////////////////////7. SE表格刷新////////////////////////////////
+        table.render({
+            elem: '#se_table'
+            , id: 'sesReload'
+            , even: true //开启隔行背景
+            , url: '/vars/seList'
+            , request: {
+                pageName: 'pageNum',
+                limitName: 'pageSize'
+            }
+            , title:
+                'SE列表'
+            , page:
+                true //开启分页
+            , limit: 20
+            , limits: [20, 50, 100]
+            , cols:
+                [[{field: 'id', title: '编号', width: '10%', align: 'center'}
+                , {field: 'name', title: '姓名', width: '30%', align: 'center'}
+                , {field: 'plName', title: 'PL', width: '30%', align: 'center'}
+                , {field: 'dept', title: '业务组', width: '30%', align: 'center'}
+                ]]
+        });
+
+        ///////////////////////////////////// 8.后台分析计算表格//////////////////////////////////
+        form.on('submit(file_submit)', function (data) {
+            formatInput(data);//格式化用户输入
+            $.ajax({
+                type: 'post',
+                url: '/vars/calc',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(data.field),
+                dataType: "json",
+                success: function (result) {
+                    if (result.code == "0") {
+
+                        parent.layer.msg(result.msg, {icon: 1, time: 1000});
+                        test_jsonStr = result.data;//仅测试
+
+                    } else {  //失败
+                        parent.layer.alert(result.msg, {icon: 2}, function () {
+                            layer.close(index);
+                        });
+                    }
+                }
+            });
+            layer.close();//关闭当前页
+            //显示报表页
+
+            return false;
+        });
+
+
+        /////////////////////////////////////////////////9. 显示报表--no use///////////////////////////
+        $("#show_report_btn1").click(function (data) {
+            var rptData = {};
+            rptData.json= jsonStr;//全局变量
+			rptData.title = '';
+            fullReportTable(rptData);//刷新文字报表
+
+            //open_form("#echart_report", data, '显示报表', '680px', '860px');
+			layer.open({type: 1,area: ['680px', '860px'],content: $("#echart_report")});
+        });
+
+
+        ////////////////////////////////test按钮//////////////////////////////
+        $("#test01").click(function (obj) {
+            // 测试用途，打开上传页面
+            var data = {};
+			data.id = 0;//测试数据，确保不匹配任何task
+            //open_form("#upload_excel_div", data, 'SE名单管理', '680px', '600px');//for test
+            //layer.open({type: 1,area: ['680px', '600px'],content: $("#upload_excel_div")});
+            //layer.open({type: 1,area: ['680px', '600px'],content: $("#echart_report")});
+            open_form("#upload_excel_div", data, '上传excel文件', '680px', '600px');
+        });
+		
+		$("#test02").click(function (obj) {
+            // 测试用途，打开报表页面
+			var rptData = {};
+			rptData.title = "for test";//
+			rptData.json = test_jsonStr;//
+
+			fullReportTable(rptData);//刷新文字报表
+			layer.open({type: 1,area: ['700px', '860px'],content: $("#echart_report")});
+        });
+		
+		form.on('select(brick)', function(data){   
+			var value=data.value; //获取下拉值
+			var seListDom = document.getElementById('dom_seList');//用于form提交
+			if (value == 1) {
+				seListDom.value = 1;
+			} else if (value == 2) {
+				seListDom.value = 2;
+			} else {
+				layer.prompt({
+					formType:2,
+					title: '输入自定义的人员名单,每行一个,无分隔符' ,
+					area:['500px','150px'],
+				},function(value,index,elem){
+					//alert(value);//保存数据
+					seListDom.value = value;
+					//生成列表
+					//更新lable，已输入名单个数：xx
+					//更新表单信息： 1， 2， json
+					layer.close(index);
+				});
+			}
+        });
+		
+		form.on('checkbox(useRules)', function(data){
+            if(data.elem.checked==true){
+				domRulesInput.disabled="";
+				//改成可用状态
+			} else {
+				//改成置灰状态，清空内容
+				domRulesInput.disabled="disabled";
+				domRulesInput.value="";
+			}
+		});
+
     });
 </script>
+
+
+
+<script type="text/javascript">
+//文件上传
+layui.use(['upload', 'element', 'layer'], function(){
+	  var $ = layui.jquery
+	  ,upload = layui.upload
+	  ,element = layui.element
+	  ,layer = layui.layer;
+
+    var uploadListIns = upload.render({
+      elem: '#test10'
+      ,elemList: $('#demoList')
+      ,accept: 'file'
+      ,auto: false
+      ,bindAction:'#UpBtn'
+      ,url: 'vars/upload'//上传excel文件
+      ,method: 'POST'
+      ,choose: function(obj) {
+        var that = this;
+        var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+        //读取本地文件
+        obj.preview(function(index, file, result){
+          var strlist=file.name.split('.')
+          if(strlist[strlist.length-1]!="xlsx" && strlist[strlist.length-1]!="xlsm"){
+            layer.alert('上传文件错误，上传xlsx或xlsm', function(index){
+              //do something
+
+              layer.close(index);
+            });
+            delete files[index];
+          } else {
+              var tr = $(['<tr id="upload-'+ index +'">'
+	          ,'<td>'+ file.name +'</td>'
+	          ,'<td>'+ (file.size/1014).toFixed(1) +'kb</td>'
+			  ,'<td>等待上传</td>'
+	          ,'<td><div class="layui-progress" lay-filter="progress-demo-'+ index +'"><div class="layui-progress-bar" lay-percent=""></div></div></td>'
+	          ,'<td>'
+	            ,'<button type="button" class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>'
+	            ,'<button type="button" class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
+	          ,'</td>'
+	        ,'</tr>'].join(''))
+
+              ///单个重传
+	        tr.find('.demo-reload').on('click', function(){
+	          obj.upload(index, file);
+	        });
+
+	        //删除
+	        tr.find('.demo-delete').on('click', function(){
+	          delete files[index]; //删除对应的文件
+	          tr.remove();
+	          uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+	        });
+
+	        that.elemList.append(tr);
+	        element.render('progress'); //渲染新加的进度条组件
+          }
+        });
+      }
+      ,done: function(res, index, upload){ //成功的回调
+          var that = this;
+	      if(res.code == 0){ //上传成功
+
+	        var tr = that.elemList.find('tr#upload-'+ index)
+	        ,tds = tr.children();
+			// tds.remove();
+			tds.eq(2).html('<span style="color:green;">上传成功</span>') //显示上传成功
+	        tds.eq(3).html(''); //清空操作
+	        delete this.files[index]; //删除文件队列已经上传成功的文件
+	        return;
+	      }
+	      this.error(index, upload);
+      }
+      ,allDone: function(obj){ //多文件上传完毕后的状态回调
+        console.log(obj)
+      }
+      ,error: function(index, upload){ //错误回调
+        var that = this;
+        var tr = that.elemList.find('tr#upload-'+ index)
+                ,tds = tr.children();
+        tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
+      }
+      ,progress: function(n, elem, e, index){ //注意：index 参数为 layui 2.6.6 新增
+        element.progress('progress-demo-'+ index, n + '%'); //执行进度条。n 即为返回的进度百分比
+      }
+    });
+});
+</script >
+
+<script type="text/javascript">
+//报表相关功能
+
+var chartDom = document.getElementById('echart_report_frame');
+var tableDom = document.getElementById('rept_table');
+var domSeNameSelect = document.getElementById("dom_se_name_select");
+var domUseRulesCheckbox = document.getElementById("dom_checkbox_use_rules");
+var domRulesInput = document.getElementById('dom_input_rules');
+var domSeList = document.getElementById('dom_seList');
+
+var myChart = echarts.init(chartDom,null, {
+    width: 400,
+    height: 1000
+  });
+
+var names = [];
+var series_count = [];
+var series_total = [];
+var plNames = [];
+var welinks = [];
+
+//default value
+var test_jsonStr = '[{"name": "张三","count": 4,"total":5, "plName":"李玉", "welink":"fanmingchao@d269553246"},{"name": "Lisi","count": 1,"total":15, "plName":"李玉"},{"name": "李老师","count": 10,"total":10, "plName":"李玉"},{"name": "王五","count": 8,"total":12, "plName":"李玉"},{"name": "张鑫","count": 4,"total":4, "plName":"liyu"}]';
+
+var task_title;
+var task_url;
+var task_owner;
+var task_start;
+var task_end;
+
+//填充文字表格
+function fullReportTable(data) {
+
+	var obj =JSON.parse(data.json);
+	
+	names = [];
+	series_count = [];
+	series_total = [];
+	plNames = [];
+	welinks = [];
+
+	var len = obj.length;
+	for(var i = len-1;i >= 0 ;i--){ 
+		//倒序输出，匹配echar表
+		var item = obj[i];
+		names.push(item.name);
+		series_count.push(item.count);
+		series_total.push(item.total);
+		plNames.push(item.plName);
+		welinks.push(item.welinkId);
+	}
+
+	option = {
+		legend: {},
+		height: 50+len*26,
+		title: {
+			text: data.title,
+			textStyle: {
+				align: 'center',
+				color: 'red',
+				fontSize: 20,
+			},
+			top: '5%',
+			left: 'center',
+		},
+		tooltip: {
+		  trigger: 'axis',
+		  showContent: true
+		},
+		xAxis: {
+
+		},
+		yAxis: { type: 'category' ,
+				data: names},
+
+		series: [
+		  {
+			type: 'bar',
+			seriesLayoutBy: 'row',
+			data: series_count,
+			name: '已经完成'
+		  },
+		  {
+			type: 'bar',
+			seriesLayoutBy: 'row',
+			data: series_total,
+			label: {
+				normal: {
+				  position: 'right',
+				  distance: 10,
+				  show: true,
+				  color: '#222'
+				}
+			},
+			name: '任务总数'
+		  }
+		]
+	};
+	myChart.setOption(option);//刷新报表
+	
+	names = [];
+	series_count = [];
+	series_total = [];
+	plNames = [];
+	welinks = [];
+	obj.forEach (function(item) {
+		  console.log(item);
+		  names.push(item.name);
+		  series_count.push(item.count);
+		  series_total.push(item.total);
+		  plNames.push(item.plName);
+		  welinks.push(item.welinkId);
+	});
+	
+	//梳理文字表格
+    var table = document.getElementById("rept_table");
+	var i = 0;
+	var len = table.rows.length
+	for(i=0;i < len-1;i++){
+        table.deleteRow(1);
+    }
+	
+    for(i=0;i < names.length;i++){
+        var row = table.insertRow(table.rows.length);
+        var c1 = row.insertCell(0);
+        c1.innerHTML= names[i];
+        var c2 = row.insertCell(1);
+        c2.innerHTML = "<a onclick = 'openWelinkIM(" + i + ");'> >>> </a>";
+
+        var c3 = row.insertCell(2);
+		c3.innerHTML = series_count[i];
+
+        var c4 = row.insertCell(3);
+		c4.innerHTML = series_total[i];
+
+        var c5 = row.insertCell(4);
+        c5.innerHTML = plNames[i];
+    }
+	tableDom.style.height = (names.length+1)*30 + 'px';
+};
+
+function openWelinkIM(cellIndex) {
+  //首先获取行号
+  var welink = welinks[cellIndex];
+  HWH5.openIMChat({
+    chatID: welink,
+    chatType: '0',
+  }).catch(function (error) {
+    console.log('打开IM异常', error);
+  });
+
+	prepareClipboard(cellIndex);//刷新剪贴板
+}
+function prepareClipboard(cellIndex) {
+	/*任务名称：
+	  任务发起人：
+	  发起时间：完成时间
+	  状态：
+	  文档链接：
+	*/
+	var str = "任务名称:" + task_title  + '\n'
+				+  "任务发起人:" + task_owner + '\n'
+				+  "发起时间:" + task_start + "  完成时间:" + task_end + '\n'
+				+  "状态(完成/总数)：" +  series_count[cellIndex] + '/' + series_total[cellIndex] + '\n'
+				+  "文档链接:" + task_url;
+			
+    navigator.clipboard.writeText(str);
+}
+
+function formatInput(data) {
+
+	if (domSeNameSelect.value != 3) {
+		domSeList.value = '';
+		data.field.seList = domSeNameSelect.value;
+	}
+	
+	if (domUseRulesCheckbox.checked == false) {
+		domRulesInput.value = '';
+		data.field.rulesValue = '';
+	}
+}
+
+</script>
+
 </body>
 </html>
