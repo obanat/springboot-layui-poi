@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.mudemo.dao.GoodsDao">
+<mapper namespace="com.mudemo.dao.TasksDao">
 
-    <select id="searchGoods" resultType="com.mudemo.model.Goods">
+    <select id="searchTasks" resultType="com.mudemo.model.seTasks">
         SELECT
         id,
         name,
-        type,
-        price,
-        size,
+        start_time,
+        end_time,
+        owner,
         status,
+        prio,
+        url,
         description
         FROM
-        mutest.goods
+        oc80.setasks
         <where>
             1=1
-            <if test="name != null">and name like concat('%',
-                #{name},
-                '%')
+            <if test="name != null">and (name like concat('%',
+                #{name},'%') or owner like concat('%', #{name},'%'))
             </if>
-            <if test="type != null">and type = #{type}</if>
             <if test="status != null">and status = #{status}</if>
         </where>
     </select>
