@@ -130,3 +130,9 @@ CREATE TABLE `oc80`.`seinfo` (
   `description` VARCHAR(128) NULL,
   `welinkId` VARCHAR(45) NULL,
   UNIQUE INDEX `id_UNIQUE` (`id` ASC));
+  
+  
+  
+ 6) 其它配置
+ 新增一个maven的Run/Debug Configuration配置，其中运行参数填写“spring-boot:run”，其它保持默认
+ 
