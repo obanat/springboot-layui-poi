@@ -134,5 +134,32 @@ CREATE TABLE `oc80`.`seinfo` (
   
   
  6) 其它配置
+ 关于调试：
  新增一个maven的Run/Debug Configuration配置，其中运行参数填写“spring-boot:run”，其它保持默认
  
+ ubuntu使用apt install安装后，root密码需要通过如下方法设置：
+ 配置文件中增加如下行
+ sudo vim /etc/mysql/mysql.conf.d/mysqld.cnf
+ skip-grant-tables
+ 然后重启mysql
+ sudo service mysql restart
+ 重启后，就可以直接敲回车进入命令行
+ mysql -u root -p
+ 使用如下方法设置密码
+ alter user ‘root’@‘localhost’ identified by "设置的新密码"；
+ 注释掉skip-grant-tables，重启mysql
+ 
+ 
+ sql远程访问:
+ 局域网无法访问错误，表现为telnet xxxx:3306连接不上
+ 注释配置文件中的bind-address            = 127.0.0.1
+ 
+ 使用如下命令赋予所有表的权限
+ grant all privileges on *.* to 'root'@'%' ;这个步骤会新建一个root用户，赋予远程访问权限
+ FLUSH PRIVILEGES;
+ 
+ sql8查看用户表
+ select Host,User,plugin,authentication_string from user;
+ 
+ 清除某个客户端错误连接上限的方法“unblock with 'mysqladmin flush-hosts'”
+ flush hosts;
