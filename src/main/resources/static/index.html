@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="layui/css/layui.css" media="all"/>
 
 </head>
+
+
+
 <body>
 <!--头部-->
 <div style="margin: 10px 0 10px 1%;width: 99%">
@@ -173,7 +176,7 @@
             <p>点击上传，或将文件拖拽到此处</p>
             <div class="layui-hide" id="uploadDemoView">
                 <hr>
-                <img src="" alt="上传成功后渲染" style="max-width: 196px">
+                <img src="" alt="上传成功后渲染" style="max-width: 196px"></img>
             </div>
         </div>
 
@@ -278,7 +281,7 @@
 		<div class="layui-row">
          <!-- 定义列 -->
 			<div class="layui-col-md3" style="margin:30px 0px 0px 0px;">
-				<table id="rept_table" style="width:280px;border="1" cellspacing="0" cellpadding="0" >
+				<table id="rept_table" style="width:280px;border=1" cellspacing="0" cellpadding="0" >
                     <tr>
                         <th>姓名</th>
 						<th>welink</th>
@@ -289,7 +292,7 @@
                 </table>
 		  </div>
           <div class="layui-col-md4" style="">
-			<div id="echart_report_frame" style="">
+			<div id="echart_report_frame" style=""></div>
 		  </div>
 		</div>
 	</div>
@@ -465,7 +468,9 @@
 							task_start = data.start_time;
 							task_end = data.end_time;
 							
-							layer.open({type: 1,area: ['680px', '860px'],content: $("#echart_report")});
+							//layer.open({type: 1,area: ['680px', '860px'],content: $("#echart_report")});
+							//改为调用openForm，解决layui新版本更新后，div不隐藏的问题
+							open_form("#echart_report", data, '报表详情', '680px', '860px');
 						}, error: function (e) {
 							console.log(e, 'error');
 							layer.msg("查询任务异常，请联系开发者！", {icon: 1, time: 1000});
@@ -581,8 +586,8 @@
 			rptData.title = '';
             fullReportTable(rptData);//刷新文字报表
 
-            //open_form("#echart_report", data, '显示报表', '680px', '860px');
-			layer.open({type: 1,area: ['680px', '860px'],content: $("#echart_report")});
+			//layer.open({type: 1,area: ['680px', '860px'],content: $("#echart_report")});
+			open_form("#echart_report", data, '报表详情', '680px', '860px');
         });
 
 
@@ -600,11 +605,13 @@
 		$("#test02").click(function (obj) {
             // 测试用途，打开报表页面
 			var rptData = {};
+			var data = {};
 			rptData.title = "for test";//
 			rptData.json = test_jsonStr;//
 
 			fullReportTable(rptData);//刷新文字报表
-			layer.open({type: 1,area: ['700px', '860px'],content: $("#echart_report")});
+			//layer.open({type: 1,area: ['700px', '860px'],content: $("#echart_report")});
+			open_form("#echart_report", data, '报表测试页', '700px', '860px');
         });
 		
 		form.on('select(brick)', function(data){   
