@@ -24,6 +24,9 @@ function open_form(element, data, title, width, height) {
         success: function () {
             $(element).setForm(data);
             layui.form.render();  // 下拉框赋值
+        },
+        end: function () {
+            $(element).hide();//新加代码，解决新版layui关闭div后不隐藏的问题
         }
     });
 }
