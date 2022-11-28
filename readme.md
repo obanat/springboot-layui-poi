@@ -117,7 +117,7 @@ CREATE TABLE `oc80`.`setasks` (
   `url` VARCHAR(256) NULL,
   `sheetName` VARCHAR(256) NULL,
   `nameCol` INT NULL,
-  `valueCox` INT NULL,
+  `valueCol` INT NULL,
   `reportStr` VARCHAR(1056) NULL,
   UNIQUE INDEX `id_UNIQUE` (`id` ASC));
 
