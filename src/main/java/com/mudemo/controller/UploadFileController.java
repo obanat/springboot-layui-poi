@@ -38,7 +38,7 @@ public class UploadFileController {
     boolean useTableSeList = false;//使用表格中的人员名单
     List<seDetailInfo> seArray;
     String rules = null;
-    XSSFWorkbook workbook;
+    XSSFWorkbook uploadWorkbook;
     @Autowired
     private GoodsService goodsService;
 
@@ -48,6 +48,7 @@ public class UploadFileController {
 
         //返回结果
         JSONObject result = new JSONObject();
+        XSSFWorkbook workbook = null;
 
         result.put("code", "0");
         result.put("msg", "Excel解析成功，请查看报表！");
@@ -68,7 +69,10 @@ public class UploadFileController {
                 infos = goodsService.getSeList2();//获取数据库中的人员信息，必须的，报表数据的来源
             }
 
-            if (workbook == null) {
+            if (uploadWorkbook != null)  {
+                //优先使用上传的workbook
+                workbook = uploadWorkbook;
+            } else {
                 try {
                     FileInputStream file = new FileInputStream(new File("D:\\(标记版本)MagicOS特性梳理 V1.1.xlsm"));
                     workbook = new XSSFWorkbook(file);//test
@@ -201,7 +205,7 @@ public class UploadFileController {
             String fileName = file.getOriginalFilename();
 
             //XSSFWorkbook workbook = new XSSFWorkbook(file);test
-            workbook = new XSSFWorkbook(file.getInputStream());
+            uploadWorkbook = new XSSFWorkbook(file.getInputStream());
         }catch (Exception e) {
             result.put("code", "500");
             result.put("msg", "文件选择错误，上传失败！");
@@ -270,6 +274,8 @@ public class UploadFileController {
             if (se != null) {
                 se.total ++;
                 if (matchValue(value,p)) se.count++;
+
+                return true;
             }
         } else {
             for (seDetailInfo se : seArray) {//仅遍历
